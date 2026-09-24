@@ -1,0 +1,553 @@
+import type { Locale } from "@/lib/types";
+
+// ----------------------------------------------------------------------------
+// ENGLISH
+// ----------------------------------------------------------------------------
+const en = {
+  meta: {
+    title: "Wanderlust — Premium Travel & Tour Booking",
+    description:
+      "Discover and book handcrafted journeys to the world's most breathtaking destinations. Best price guarantee, 24/7 support, expert local guides.",
+  },
+  nav: {
+    home: "Home",
+    destinations: "Destinations",
+    tours: "Tours",
+    hotels: "Hotels",
+    about: "About",
+    contact: "Contact",
+    bookNow: "Book Now",
+  },
+  hero: {
+    badge: "Trusted by 250,000+ travelers",
+    title: "Explore the World,",
+    titleAccent: "One Unforgettable Journey at a Time",
+    subtitle:
+      "Handcrafted tours, curated hotels, and seamless booking to 180+ destinations. Your next adventure begins here.",
+    search: {
+      destination: "Where to?",
+      destinationPlaceholder: "Search a city or country",
+      date: "Travel Date",
+      datePlaceholder: "Pick a date",
+      guests: "Travelers",
+      guestsPlaceholder: "2 adults",
+      button: "Search Trips",
+      adults: "adults",
+      children: "children",
+    },
+    scroll: "Scroll to explore",
+  },
+  stats: {
+    destinations: "Destinations",
+    happyTravelers: "Happy Travelers",
+    expertGuides: "Expert Guides",
+    satisfaction: "Satisfaction Rate",
+  },
+  sections: {
+    destinations: {
+      eyebrow: "Top Destinations",
+      title: "Where Will You Go Next?",
+      subtitle: "From sun-drenched beaches to ancient cities — find the perfect escape for every dream.",
+      viewAll: "View all destinations",
+      from: "From",
+      tours: "tours available",
+    },
+    tours: {
+      eyebrow: "Curated Packages",
+      title: "Signature Tour Experiences",
+      subtitle: "All-inclusive journeys designed by our travel experts, with everything handled for you.",
+      filters: {
+        all: "All Tours",
+        beach: "Beach & Islands",
+        cultural: "Cultural & Heritage",
+        adventure: "Adventure",
+        honeymoon: "Honeymoon",
+      },
+      days: "days",
+      perPerson: "per person",
+      bookNow: "Book This Trip",
+      includes: "Includes",
+      off: "OFF",
+      bestValue: "Best Value",
+    },
+    hotels: {
+      eyebrow: "Stay in Style",
+      title: "Featured Hotels & Resorts",
+      subtitle: "Hand-picked properties from boutique stays to five-star escapes.",
+      perNight: "per night",
+      book: "Reserve",
+      reviews: "reviews",
+    },
+    features: {
+      eyebrow: "Why Wanderlust",
+      title: "Travel With Confidence",
+      subtitle: "Every detail handled so you can focus on the adventure.",
+    },
+    testimonials: {
+      eyebrow: "Traveler Stories",
+      title: "Loved by Adventurers Worldwide",
+      subtitle: "Real experiences from real travelers who trusted us with their journeys.",
+    },
+    cta: {
+      eyebrow: "Never Miss a Deal",
+      title: "Get Exclusive Travel Offers",
+      subtitle: "Subscribe to receive curated deals, seasonal discounts, and travel inspiration straight to your inbox.",
+      placeholder: "you@example.com",
+      button: "Subscribe",
+      success: "You're in! Check your inbox for a welcome gift.",
+      noSpam: "No spam, unsubscribe anytime.",
+    },
+    footer: {
+      tagline: "Crafting unforgettable journeys since 2009. Your adventure, our promise.",
+      quickLinks: "Quick Links",
+      support: "Support",
+      contact: "Get in Touch",
+      newsletter: "Newsletter",
+      rights: "All rights reserved.",
+      links: {
+        about: "About Us",
+        careers: "Careers",
+        blog: "Travel Blog",
+        press: "Press",
+        help: "Help Center",
+        cancellations: "Cancellation Policy",
+        safety: "Safety & Trust",
+        faq: "FAQ",
+        address: "14 Riverside Court, Dubai, UAE",
+        phone: "+971 4 555 0199",
+        email: "hello@wanderlust.travel",
+      },
+      payments: "Secure payments accepted",
+    },
+  },
+  booking: {
+    title: "Book Your Trip",
+    subtitle: "Confirm your adventure in just a minute.",
+    fields: {
+      fullName: "Full Name",
+      fullNamePlaceholder: "Jane Doe",
+      email: "Email Address",
+      emailPlaceholder: "jane@example.com",
+      phone: "Phone Number",
+      phonePlaceholder: "+971 50 123 4567",
+      package: "Selected Package",
+      destination: "Destination",
+      date: "Travel Date",
+      travelers: "Number of Travelers",
+      notes: "Special Requests (optional)",
+      notesPlaceholder: "Dietary needs, accessibility, room preferences...",
+    },
+    summary: {
+      title: "Booking Summary",
+      package: "Package",
+      basePrice: "Base price",
+      travelers: "Travelers",
+      total: "Total",
+      guarantee: "Free cancellation up to 7 days before departure.",
+    },
+    submit: "Confirm & Pay",
+    cancel: "Cancel",
+    success: {
+      title: "Booking Confirmed!",
+      message: "We've sent a confirmation to your email. Our team will reach out within 24 hours.",
+      reference: "Reference",
+      close: "Done",
+      newBooking: "Book another trip",
+    },
+    errors: {
+      required: "Please fill in all required fields.",
+      email: "Please enter a valid email address.",
+      generic: "Something went wrong. Please try again.",
+    },
+    currency: "USD",
+  },
+  theme: {
+    toggle: "Toggle theme",
+    light: "Light",
+    dark: "Dark",
+  },
+  language: {
+    label: "Language",
+  },
+  common: {
+    perPerson: "per person",
+    perNight: "per night",
+    from: "from",
+    reviews: "reviews",
+    loading: "Loading...",
+  },
+};
+
+// ----------------------------------------------------------------------------
+// ARABIC (RTL)
+// ----------------------------------------------------------------------------
+const ar: Dict = {
+  meta: {
+    title: "واندرلاست — منصة حجوزات السفر والسياحة الاحترافية",
+    description:
+      "اكتشف واحجز رحلات مصممة بعناية إلى أروع وجهات العالم. أفضل سعر مضمون، دعم على مدار الساعة، ومرشدون محليون محترفون.",
+  },
+  nav: {
+    home: "الرئيسية",
+    destinations: "الوجهات",
+    tours: "الجولات",
+    hotels: "الفنادق",
+    about: "من نحن",
+    contact: "اتصل بنا",
+    bookNow: "احجز الآن",
+  },
+  hero: {
+    badge: "موثوق من أكثر من 250 ألف مسافر",
+    title: "استكشف العالم،",
+    titleAccent: "رحلة لا تُنسى في كل مرة",
+    subtitle:
+      "جولات مصممة بعناية، فنادق منتقاة، وحجز سلس لأكثر من 180 وجهة. مغامرتك القادمة تبدأ من هنا.",
+    search: {
+      destination: "إلى أين؟",
+      destinationPlaceholder: "ابحث عن مدينة أو دولة",
+      date: "تاريخ السفر",
+      datePlaceholder: "اختر التاريخ",
+      guests: "المسافرون",
+      guestsPlaceholder: "شخصان بالغان",
+      button: "ابحث عن رحلات",
+      adults: "بالغون",
+      children: "أطفال",
+    },
+    scroll: "مرر للأسفل للاستكشاف",
+  },
+  stats: {
+    destinations: "وجهة",
+    happyTravelers: "مسافر سعيد",
+    expertGuides: "مرشد محترف",
+    satisfaction: "نسبة الرضا",
+  },
+  sections: {
+    destinations: {
+      eyebrow: "أبرز الوجهات",
+      title: "إلى أين ستذهب قادماً؟",
+      subtitle: "من الشواطئ المشمسة إلى المدن العتيقة — اعثر على الإقامة المثالية لكل حلم.",
+      viewAll: "عرض جميع الوجهات",
+      from: "ابتداءً من",
+      tours: "جولة متاحة",
+    },
+    tours: {
+      eyebrow: "باقات مختارة",
+      title: "تجارب جولات مميزة",
+      subtitle: "رحلات شاملة الترتيب صممها خبراؤنا، مع تنظيم كل التفاصيل نيابةً عنك.",
+      filters: {
+        all: "كل الجولات",
+        beach: "شواطئ وجزر",
+        cultural: "تراث وثقافة",
+        adventure: "مغامرات",
+        honeymoon: "رحلات العسل",
+      },
+      days: "أيام",
+      perPerson: "للشخص",
+      bookNow: "احجز هذه الرحلة",
+      includes: "يشمل",
+      off: "خصم",
+      bestValue: "أفضل قيمة",
+    },
+    hotels: {
+      eyebrow: "أقم بأناقة",
+      title: "فنادق ومنتجعات مميزة",
+      subtitle: "أماكن منتقاة بعناية من الإقامات البوتيك إلى الفنادق الخمس نجوم.",
+      perNight: "للليلة",
+      book: "احجز",
+      reviews: "تقييم",
+    },
+    features: {
+      eyebrow: "لماذا واندرلاست",
+      title: "سافر بثقة تامة",
+      subtitle: "نهتم بكل تفصيلة لتتفرغ أنت للمغامرة.",
+    },
+    testimonials: {
+      eyebrow: "قصص المسافرين",
+      title: "محبوب من المغامرين حول العالم",
+      subtitle: "تجارب حقيقية من مسافرين حقيقيين ائتمنونا على رحلاتهم.",
+    },
+    cta: {
+      eyebrow: "لا تفوّت أي عرض",
+      title: "احصل على عروض سفر حصرية",
+      subtitle: "اشترك لتصلك أفضل العروض والخصومات الموسمية وإلهام السفر مباشرةً إلى بريدك.",
+      placeholder: "you@example.com",
+      button: "اشترك",
+      success: "تم تسجيلك! تحقق من بريدك للحصول على هدية الترحيب.",
+      noSpam: "بلا رسائل مزعجة، ألغِ الاشتراك متى شئت.",
+    },
+    footer: {
+      tagline: "نصنع رحلات لا تُنسى منذ 2009. مغامرتك وعدنا.",
+      quickLinks: "روابط سريعة",
+      support: "الدعم",
+      contact: "تواصل معنا",
+      newsletter: "النشرة البريدية",
+      rights: "جميع الحقوق محفوظة.",
+      links: {
+        about: "من نحن",
+        careers: "الوظائف",
+        blog: "مدونة السفر",
+        press: "الصحافة",
+        help: "مركز المساعدة",
+        cancellations: "سياسة الإلغاء",
+        safety: "الأمان والثقة",
+        faq: "الأسئلة الشائعة",
+        address: "14 شارع المرسى، دبي، الإمارات",
+        phone: "+971 4 555 0199",
+        email: "hello@wanderlust.travel",
+      },
+      payments: "طرق دفع آمنة مقبولة",
+    },
+  },
+  booking: {
+    title: "احجز رحلتك",
+    subtitle: "أكّد مغامرتك في دقيقة واحدة فقط.",
+    fields: {
+      fullName: "الاسم الكامل",
+      fullNamePlaceholder: "محمد أحمد",
+      email: "البريد الإلكتروني",
+      emailPlaceholder: "mohammed@example.com",
+      phone: "رقم الهاتف",
+      phonePlaceholder: "+971 50 123 4567",
+      package: "الباقة المختارة",
+      destination: "الوجهة",
+      date: "تاريخ السفر",
+      travelers: "عدد المسافرين",
+      notes: "طلبات خاصة (اختياري)",
+      notesPlaceholder: "احتياجات غذائية، إمكانية وصول، تفضيلات الغرفة...",
+    },
+    summary: {
+      title: "ملخص الحجز",
+      package: "الباقة",
+      basePrice: "السعر الأساسي",
+      travelers: "المسافرون",
+      total: "الإجمالي",
+      guarantee: "إلغاء مجاني حتى 7 أيام قبل موعد السفر.",
+    },
+    submit: "تأكيد ودفع",
+    cancel: "إلغاء",
+    success: {
+      title: "تم تأكيد الحجز!",
+      message: "أرسلنا تأكيداً إلى بريدك. سيتواصل فريقنا معك خلال 24 ساعة.",
+      reference: "المرجع",
+      close: "تم",
+      newBooking: "احجز رحلة أخرى",
+    },
+    errors: {
+      required: "يرجى ملء جميع الحقول المطلوبة.",
+      email: "يرجى إدخال بريد إلكتروني صحيح.",
+      generic: "حدث خطأ ما. يرجى المحاولة مرة أخرى.",
+    },
+    currency: "د.أ",
+  },
+  theme: {
+    toggle: "تبديل المظهر",
+    light: "فاتح",
+    dark: "داكن",
+  },
+  language: {
+    label: "اللغة",
+  },
+  common: {
+    perPerson: "للشخص",
+    perNight: "للليلة",
+    from: "ابتداءً من",
+    reviews: "تقييم",
+    loading: "جارٍ التحميل...",
+  },
+};
+
+// ----------------------------------------------------------------------------
+// FRENCH
+// ----------------------------------------------------------------------------
+const fr: Dict = {
+  meta: {
+    title: "Wanderlust — Réservation de voyages & circuits premium",
+    description:
+      "Découvrez et réservez des séjours sur mesure vers les plus belles destinations du monde. Meilleur prix garanti, assistance 24h/24, guides locaux experts.",
+  },
+  nav: {
+    home: "Accueil",
+    destinations: "Destinations",
+    tours: "Circuits",
+    hotels: "Hôtels",
+    about: "À propos",
+    contact: "Contact",
+    bookNow: "Réserver",
+  },
+  hero: {
+    badge: "La confiance de plus de 250 000 voyageurs",
+    title: "Explorez le monde,",
+    titleAccent: "un voyage inoubliable à la fois",
+    subtitle:
+      "Circuits sur mesure, hôtels sélectionnés et réservation fluide vers plus de 180 destinations. Votre prochaine aventure commence ici.",
+    search: {
+      destination: "Où aller ?",
+      destinationPlaceholder: "Rechercher une ville ou un pays",
+      date: "Date de voyage",
+      datePlaceholder: "Choisir une date",
+      guests: "Voyageurs",
+      guestsPlaceholder: "2 adultes",
+      button: "Rechercher des séjours",
+      adults: "adultes",
+      children: "enfants",
+    },
+    scroll: "Faites défiler pour explorer",
+  },
+  stats: {
+    destinations: "Destinations",
+    happyTravelers: "Voyageurs satisfaits",
+    expertGuides: "Guides experts",
+    satisfaction: "Taux de satisfaction",
+  },
+  sections: {
+    destinations: {
+      eyebrow: "Top Destinations",
+      title: "Où irez-vous ensuite ?",
+      subtitle: "Des plages ensoleillées aux cités anciennes — trouvez l'évasion parfaite pour chaque rêve.",
+      viewAll: "Voir toutes les destinations",
+      from: "À partir de",
+      tours: "circuits disponibles",
+    },
+    tours: {
+      eyebrow: "Forêts sélectionnés",
+      title: "Expériences de circuits signature",
+      subtitle: "Des voyages tout compris conçus par nos experts, avec chaque détail géré pour vous.",
+      filters: {
+        all: "Tous les circuits",
+        beach: "Plages & îles",
+        cultural: "Culture & patrimoine",
+        adventure: "Aventure",
+        honeymoon: "Voyage de noces",
+      },
+      days: "jours",
+      perPerson: "par personne",
+      bookNow: "Réserver ce voyage",
+      includes: "Inclus",
+      off: "RÉDUC",
+      bestValue: "Meilleur rapport",
+    },
+    hotels: {
+      eyebrow: "Séjournez avec élégance",
+      title: "Hôtels & clubs d'exception",
+      subtitle: "Établissements sélectionnés, du boutique hôtel aux escapades cinq étoiles.",
+      perNight: "par nuit",
+      book: "Réserver",
+      reviews: "avis",
+    },
+    features: {
+      eyebrow: "Pourquoi Wanderlust",
+      title: "Voyagez en toute sérénité",
+      subtitle: "Chaque détail est géré pour que vous vous concentriez sur l'aventure.",
+    },
+    testimonials: {
+      eyebrow: "Témoignages",
+      title: "Adoré par les voyageurs du monde entier",
+      subtitle: "De vraies expériences de voyageurs qui nous ont confié leurs escapades.",
+    },
+    cta: {
+      eyebrow: "Ne manquez aucune offre",
+      title: "Recevez des offres de voyage exclusives",
+      subtitle: "Abonnez-vous pour recevoir des offres sélectionnées, des réductions saisonnières et de l'inspiration voyage directement dans votre boîte mail.",
+      placeholder: "vous@example.com",
+      button: "S'abonner",
+      success: "Vous êtes inscrit ! Vérifiez votre boîte mail pour votre cadeau de bienvenue.",
+      noSpam: "Aucun spam, désabonnement à tout moment.",
+    },
+    footer: {
+      tagline: "Des voyages inoubliables depuis 2009. Votre aventure, notre promesse.",
+      quickLinks: "Liens rapides",
+      support: "Assistance",
+      contact: "Contactez-nous",
+      newsletter: "Newsletter",
+      rights: "Tous droits réservés.",
+      links: {
+        about: "À propos",
+        careers: "Carrières",
+        blog: "Blog voyage",
+        press: "Presse",
+        help: "Centre d'aide",
+        cancellations: "Politique d'annulation",
+        safety: "Sécurité & confiance",
+        faq: "FAQ",
+        address: "14 Riverside Court, Dubaï, EAU",
+        phone: "+971 4 555 0199",
+        email: "hello@wanderlust.travel",
+      },
+      payments: "Paiements sécurisés acceptés",
+    },
+  },
+  booking: {
+    title: "Réservez votre voyage",
+    subtitle: "Confirmez votre aventure en une minute.",
+    fields: {
+      fullName: "Nom complet",
+      fullNamePlaceholder: "Marie Dupont",
+      email: "Adresse e-mail",
+      emailPlaceholder: "marie@example.com",
+      phone: "Téléphone",
+      phonePlaceholder: "+33 6 12 34 56 78",
+      package: "Forfait sélectionné",
+      destination: "Destination",
+      date: "Date de voyage",
+      travelers: "Nombre de voyageurs",
+      notes: "Demandes spéciales (optionnel)",
+      notesPlaceholder: "Régime alimentaire, accessibilité, préférences de chambre...",
+    },
+    summary: {
+      title: "Récapitulatif",
+      package: "Forfait",
+      basePrice: "Prix de base",
+      travelers: "Voyageurs",
+      total: "Total",
+      guarantee: "Annulation gratuite jusqu'à 7 jours avant le départ.",
+    },
+    submit: "Confirmer & payer",
+    cancel: "Annuler",
+    success: {
+      title: "Réservation confirmée !",
+      message: "Nous avons envoyé une confirmation par e-mail. Notre équipe vous contactera sous 24h.",
+      reference: "Référence",
+      close: "Terminé",
+      newBooking: "Réserver un autre voyage",
+    },
+    errors: {
+      required: "Veuillez remplir tous les champs obligatoires.",
+      email: "Veuillez saisir une adresse e-mail valide.",
+      generic: "Une erreur s'est produite. Veuillez réessayer.",
+    },
+    currency: "USD",
+  },
+  theme: {
+    toggle: "Changer de thème",
+    light: "Clair",
+    dark: "Sombre",
+  },
+  language: {
+    label: "Langue",
+  },
+  common: {
+    perPerson: "par personne",
+    perNight: "par nuit",
+    from: "à partir de",
+    reviews: "avis",
+    loading: "Chargement...",
+  },
+};
+
+// ----------------------------------------------------------------------------
+// Public exports (declared AFTER the consts to avoid TDZ)
+// ----------------------------------------------------------------------------
+
+// Translation dictionary type — every key must exist in every locale.
+export type Dict = typeof en;
+
+export const dictionaries: Record<Locale, Dict> = {
+  en,
+  ar,
+  fr,
+};
+
+export function getDict(locale: Locale): Dict {
+  return dictionaries[locale] ?? en;
+}
+
