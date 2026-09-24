@@ -1,9 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import { Search, MapPin, CalendarDays, Users, Star, ChevronDown } from "lucide-react";
+import { Search, MapPin, Users, Star, ChevronDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import {
   Select,
   SelectContent,
@@ -14,6 +13,7 @@ import {
 import { useI18n } from "@/i18n/i18n-context";
 import { destinations, HERO_IMAGE, stats } from "@/data/travel-data";
 import { toast } from "sonner";
+import { DateSelect } from "@/components/travel/date-select";
 
 export function Hero() {
   const { t, locale } = useI18n();
@@ -96,7 +96,7 @@ export function Hero() {
           <div className="rounded-2xl sm:rounded-3xl bg-white/95 dark:bg-card/95 backdrop-blur-xl border border-white/30 shadow-2xl shadow-black/20 p-3 sm:p-4">
             <div className="grid grid-cols-1 md:grid-cols-12 gap-2 sm:gap-3">
               {/* Destination */}
-              <div className="md:col-span-5">
+              <div className="md:col-span-4">
                 <label className="flex items-center gap-2 px-3 pt-2 text-xs font-semibold text-muted-foreground">
                   <MapPin className="h-3.5 w-3.5 text-primary" />
                   {t.hero.search.destination}
@@ -118,18 +118,12 @@ export function Hero() {
                 </Select>
               </div>
 
-              {/* Date */}
-              <div className="md:col-span-3 md:border-s border-border">
-                <label className="flex items-center gap-2 px-3 pt-2 text-xs font-semibold text-muted-foreground">
-                  <CalendarDays className="h-3.5 w-3.5 text-primary" />
-                  {t.hero.search.date}
-                </label>
-                <Input
-                  type="date"
+              {/* Date — localized custom day/month/year selector */}
+              <div className="md:col-span-4 md:border-s border-border">
+                <DateSelect
                   value={date}
-                  onChange={(e) => setDate(e.target.value)}
-                  className="h-12 border-0 shadow-none focus:ring-0 text-base bg-transparent"
-                  aria-label={t.hero.search.date}
+                  onChange={setDate}
+                  ariaLabel={t.hero.search.date}
                 />
               </div>
 

@@ -1,6 +1,6 @@
 // Centralized type definitions for the travel booking platform
 
-export type Locale = "ar" | "en" | "fr";
+export type Locale = "ar" | "en" | "fr" | "tr" | "ru" | "zh";
 
 export interface LocaleMeta {
   code: Locale;
@@ -14,6 +14,9 @@ export const LOCALES: LocaleMeta[] = [
   { code: "ar", label: "Arabic", labelNative: "العربية", dir: "rtl", flag: "🇸🇦" },
   { code: "en", label: "English", labelNative: "English", dir: "ltr", flag: "🇬🇧" },
   { code: "fr", label: "French", labelNative: "Français", dir: "ltr", flag: "🇫🇷" },
+  { code: "tr", label: "Turkish", labelNative: "Türkçe", dir: "ltr", flag: "🇹🇷" },
+  { code: "ru", label: "Russian", labelNative: "Русский", dir: "ltr", flag: "🇷🇺" },
+  { code: "zh", label: "Chinese", labelNative: "中文", dir: "ltr", flag: "🇨🇳" },
 ];
 
 export interface Destination {
@@ -27,6 +30,20 @@ export interface Destination {
   reviews: number;
   tag: "beach" | "city" | "mountain" | "cultural";
   tours: number;
+  // Detail data
+  overview: Record<Locale, string>;
+  bestTime: Record<Locale, string>;
+  currency: string;
+  capital: Record<Locale, string>;
+  language: Record<Locale, string>;
+  timezone: string;
+  gallery: string[];
+}
+
+export interface TourItineraryDay {
+  day: number;
+  title: Record<Locale, string>;
+  description: Record<Locale, string>;
 }
 
 export interface Tour {
@@ -42,6 +59,14 @@ export interface Tour {
   category: "beach" | "cultural" | "adventure" | "honeymoon";
   includes: Record<Locale, string[]>;
   destinationId: string;
+  // Detail data
+  overview: Record<Locale, string>;
+  itinerary: TourItineraryDay[];
+  highlights: Record<Locale, string[]>;
+  goodToKnow: Record<Locale, string[]>;
+  groupSize: string;
+  difficulty: "easy" | "moderate" | "challenging";
+  gallery: string[];
 }
 
 export interface Hotel {

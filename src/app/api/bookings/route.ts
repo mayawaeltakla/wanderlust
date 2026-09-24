@@ -22,7 +22,7 @@ export async function POST(req: Request) {
     const fullName = (body.fullName ?? "").trim();
     const email = (body.email ?? "").trim();
     const phone = (body.phone ?? "").trim();
-    const packageTitle = (body.packageTitle ?? "").trim();
+    const packageTitle = (body.packageTitle ?? "").trim() || "Custom Trip";
     const destination = (body.destination ?? "").trim();
     const travelDate = (body.travelDate ?? "").trim();
     const travelers = Number(body.travelers ?? 0);
@@ -30,16 +30,8 @@ export async function POST(req: Request) {
     const totalPrice = Number(body.totalPrice ?? 0);
     const locale = body.locale ?? "en";
 
-    if (
-      !fullName ||
-      !email ||
-      !phone ||
-      !packageTitle ||
-      !destination ||
-      !travelDate ||
-      !travelers ||
-      !totalPrice
-    ) {
+    // Required: identity + date + travelers. Destination/price optional for custom trips.
+    if (!fullName || !email || !phone || !travelDate || !travelers) {
       return NextResponse.json(
         { ok: false, error: "missing_fields" },
         { status: 400 },

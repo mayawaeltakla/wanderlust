@@ -31,6 +31,7 @@ import { Badge } from "@/components/ui/badge";
 import { useBooking } from "@/components/providers/booking-context";
 import { useI18n } from "@/i18n/i18n-context";
 import { toast } from "sonner";
+import { DateSelect } from "@/components/travel/date-select";
 
 export function BookingModal() {
   const { open, preset, closeBooking } = useBooking();
@@ -253,19 +254,19 @@ export function BookingModal() {
                   />
                 </div>
 
-                <div className="space-y-1.5">
+                <div className="space-y-1.5 sm:col-span-2">
                   <Label htmlFor="bk-date" className="flex items-center gap-1.5 text-xs">
                     <CalendarDays className="h-3 w-3 text-primary" />
                     {t.booking.fields.date}
                   </Label>
-                  <Input
-                    id="bk-date"
-                    type="date"
-                    value={travelDate}
-                    onChange={(e) => setTravelDate(e.target.value)}
-                    required
-                    className="h-11"
-                  />
+                  <div className="rounded-lg border border-input bg-background overflow-hidden">
+                    <DateSelect
+                      value={travelDate}
+                      onChange={setTravelDate}
+                      id="bk-date"
+                      ariaLabel={t.booking.fields.date}
+                    />
+                  </div>
                 </div>
 
                 <div className="space-y-1.5 sm:col-span-2">

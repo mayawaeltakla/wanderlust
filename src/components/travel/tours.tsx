@@ -1,6 +1,6 @@
 "use client";
 
-import { Clock, Star, Check, ArrowRight, Tag, Flame } from "lucide-react";
+import { Clock, Star, Check, ArrowRight, Tag, Flame, Info } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card } from "@/components/ui/card";
@@ -10,10 +10,12 @@ import { tours, TOUR_CATEGORIES, type TourCategory } from "@/data/travel-data";
 import { destinations } from "@/data/travel-data";
 import { SectionHeading } from "@/components/travel/section-heading";
 import { useBooking } from "@/components/providers/booking-context";
+import { useDetail } from "@/components/providers/detail-context";
 
 export function Tours() {
   const { t, locale } = useI18n();
   const { openBooking } = useBooking();
+  const { openTour } = useDetail();
 
   const filterTours = (cat: TourCategory) =>
     cat === "all" ? tours : tours.filter((x) => x.category === cat);
@@ -62,7 +64,12 @@ export function Tours() {
                       className="group flex flex-col overflow-hidden rounded-2xl border border-border bg-card shadow-sm hover:shadow-xl transition-all duration-300 fade-up"
                       style={{ animationDelay: `${i * 60}ms` }}
                     >
-                      <div className="relative aspect-[16/10] overflow-hidden">
+                      <button
+                        type="button"
+                        onClick={() => openTour(tour)}
+                        aria-label={`${t.sections.tours.viewDetails}: ${tour.title[locale]}`}
+                        className="relative aspect-[16/10] overflow-hidden block w-full focus:outline-none focus-visible:ring-2 focus-visible:ring-primary"
+                      >
                         <img
                           src={tour.image}
                           alt={tour.title[locale]}
@@ -85,7 +92,11 @@ export function Tours() {
                           <Clock className="h-3 w-3 text-primary" />
                           {tour.durationDays} {t.sections.tours.days}
                         </div>
-                      </div>
+                        {/* View details hint on hover */}
+                        <div className="absolute top-3 end-3 grid h-8 w-8 place-items-center rounded-full bg-white/15 backdrop-blur text-white opacity-0 group-hover:opacity-100 transition-opacity">
+                          <Info className="h-4 w-4" />
+                        </div>
+                      </button>
 
                       <div className="flex flex-col flex-1 p-5">
                         <div className="flex items-center justify-between gap-2 mb-1">
@@ -102,9 +113,15 @@ export function Tours() {
                           </div>
                         </div>
 
-                        <h3 className="text-lg font-bold leading-snug line-clamp-2 min-h-[3.5rem]">
-                          {tour.title[locale]}
-                        </h3>
+                        <button
+                          type="button"
+                          onClick={() => openTour(tour)}
+                          className="text-start block w-full"
+                        >
+                          <h3 className="text-lg font-bold leading-snug line-clamp-2 min-h-[3.5rem] hover:text-primary transition-colors">
+                            {tour.title[locale]}
+                          </h3>
+                        </button>
 
                         <p className="mt-2 text-sm text-muted-foreground line-clamp-2">
                           {tour.description[locale]}
@@ -140,21 +157,32 @@ export function Tours() {
                               </span>
                             </div>
                           </div>
-                          <Button
-                            size="sm"
-                            className="gap-1 bg-primary text-primary-foreground hover:bg-primary/90 shadow"
-                            onClick={() =>
-                              openBooking({
-                                packageTitle: tour.title[locale],
-                                destination: destName(tour.destinationId),
-                                price: tour.price,
-                                durationDays: tour.durationDays,
-                              })
-                            }
-                          >
-                            {t.sections.tours.bookNow}
-                            <ArrowRight className="h-4 w-4 rtl:rotate-180" />
-                          </Button>
+                          <div className="flex items-center gap-2">
+                            <Button
+                              size="sm"
+                              variant="outline"
+                              className="gap-1"
+                              onClick={() => openTour(tour)}
+                            >
+                              <Info className="h-4 w-4" />
+                              <span className="hidden sm:inline">{t.sections.tours.viewDetails}</span>
+                            </Button>
+                            <Button
+                              size="sm"
+                              className="gap-1 bg-primary text-primary-foreground hover:bg-primary/90 shadow"
+                              onClick={() =>
+                                openBooking({
+                                  packageTitle: tour.title[locale],
+                                  destination: destName(tour.destinationId),
+                                  price: tour.price,
+                                  durationDays: tour.durationDays,
+                                })
+                              }
+                            >
+                              {t.sections.tours.bookNow}
+                              <ArrowRight className="h-4 w-4 rtl:rotate-180" />
+                            </Button>
+                          </div>
                         </div>
                       </div>
                     </Card>

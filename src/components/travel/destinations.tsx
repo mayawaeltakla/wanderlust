@@ -1,17 +1,17 @@
 "use client";
 
-import { ArrowRight, Star, MapPin, Plane } from "lucide-react";
+import { ArrowRight, Star, MapPin, Info } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card } from "@/components/ui/card";
 import { useI18n } from "@/i18n/i18n-context";
 import { destinations } from "@/data/travel-data";
 import { SectionHeading } from "@/components/travel/section-heading";
-import { useBooking } from "@/components/providers/booking-context";
+import { useDetail } from "@/components/providers/detail-context";
 
 export function Destinations() {
   const { t, locale } = useI18n();
-  const { openBooking } = useBooking();
+  const { openDestination } = useDetail();
 
   return (
     <section
@@ -32,7 +32,12 @@ export function Destinations() {
               className="group relative overflow-hidden rounded-2xl border border-border bg-card p-0 shadow-sm hover:shadow-xl transition-all duration-300 fade-up"
               style={{ animationDelay: `${i * 60}ms` }}
             >
-              <div className="relative aspect-[4/5] overflow-hidden">
+              <button
+                type="button"
+                onClick={() => openDestination(d)}
+                className="relative aspect-[4/5] overflow-hidden block w-full text-start focus:outline-none focus-visible:ring-2 focus-visible:ring-primary"
+                aria-label={`${t.sections.destinations.viewDetails}: ${d.name[locale]}`}
+              >
                 <img
                   src={d.image}
                   alt={d.name[locale]}
@@ -45,6 +50,11 @@ export function Destinations() {
                 <div className="absolute top-3 end-3 flex items-center gap-1 rounded-full bg-white/95 dark:bg-black/70 backdrop-blur px-2.5 py-1 text-xs font-bold shadow">
                   <Star className="h-3 w-3 fill-amber-500 text-amber-500" />
                   <span>{d.rating.toFixed(1)}</span>
+                </div>
+
+                {/* View details hint */}
+                <div className="absolute top-3 start-3 grid h-8 w-8 place-items-center rounded-full bg-white/15 backdrop-blur text-white opacity-0 group-hover:opacity-100 transition-opacity">
+                  <Info className="h-4 w-4" />
                 </div>
 
                 {/* Bottom info */}
@@ -71,23 +81,17 @@ export function Destinations() {
                     </Badge>
                   </div>
                 </div>
-              </div>
+              </button>
 
-              {/* Hover action */}
+              {/* Action */}
               <div className="p-3">
                 <Button
                   variant="outline"
                   className="w-full gap-2 group-hover:bg-primary group-hover:text-primary-foreground group-hover:border-primary transition-colors"
-                  onClick={() =>
-                    openBooking({
-                      packageTitle: `${d.name[locale]} - Custom Trip`,
-                      destination: d.name[locale],
-                      price: d.priceFrom,
-                    })
-                  }
+                  onClick={() => openDestination(d)}
                 >
-                  <Plane className="h-4 w-4" />
-                  {t.nav.bookNow}
+                  <Info className="h-4 w-4" />
+                  {t.sections.destinations.viewDetails}
                   <ArrowRight className="h-4 w-4 rtl:rotate-180" />
                 </Button>
               </div>
