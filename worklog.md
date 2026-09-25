@@ -159,3 +159,20 @@ Stage Summary:
 - Text organized in clear hierarchy with labels and dividers
 - Premium hover effects (lift, shadow, zoom) added
 - All 3 sections (destinations/tours/hotels) consistent in design language
+
+---
+Task ID: 6
+Agent: orchestrator (main)
+Task: Dramatic premium card redesign after user feedback "not improved"
+
+Work Log:
+- Self-critique via VLM identified real weaknesses: badge chaos on images, duplicated rating, wasted whitespace, short images, invisible price, flat/template look
+- Destinations: REDESIGNED to Airbnb/Booking premium style — tall aspect-[4/5] dominant images, ALL text in clean organized bottom overlay (country → name hero text-3xl → rating ONE line → divider → prominent amber price + arrow), heart/save icon top-right with toggle state, subtle tours-count pill top-start, strong gradient from-black/85 for legibility, whole card clickable, rounded-[1.75rem], hover lift + colored shadow + image zoom
+- Tours: kept image+body but improved — aspect-[16/11] taller image, heart icon (toggle), removed duplicate rating, duration pill uses glassmorphism backdrop-blur, cleaner body hierarchy, rounded-[1.75rem], premium hover
+- Hotels: same premium treatment — heart icon, glassmorphism stars pill, single rating line, prominent per-night price, rounded-[1.75rem], hover lift
+- All cards: rounded-[1.75rem] (28px) for modern premium feel, hover -translate-y-1.5 lift, shadow-2xl with primary/20 tint, border-border/60 softer, image scale-110 on hover
+- lint: 0 errors; agent-browser + VLM verified: "tall dominant images ✓, clean overlay ✓, heart icon ✓, prominent price ✓, rating once ✓, Airbnb/Booking premium ✓"
+
+Stage Summary:
+- Cards now match premium travel UI standards (Airbnb/Booking style)
+- Dramatic visual difference from before: taller images, organized overlays, heart icons, prominent amber prices, glassmorphism, premium hover effects

@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import {
   Clock,
   Star,
@@ -7,8 +8,8 @@ import {
   ArrowRight,
   Tag,
   Flame,
-  Info,
   MapPin,
+  Heart,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -20,11 +21,13 @@ import { destinations } from "@/data/travel-data";
 import { SectionHeading } from "@/components/travel/section-heading";
 import { useBooking } from "@/components/providers/booking-context";
 import { useDetail } from "@/components/providers/detail-context";
+import { cn } from "@/lib/utils";
 
 export function Tours() {
   const { t, locale } = useI18n();
   const { openBooking } = useBooking();
   const { openTour } = useDetail();
+  const [saved, setSaved] = useState<Record<string, boolean>>({});
 
   const filterTours = (cat: TourCategory) =>
     cat === "all" ? tours : tours.filter((x) => x.category === cat);
@@ -32,6 +35,11 @@ export function Tours() {
   const destName = (id: string) => {
     const d = destinations.find((x) => x.id === id);
     return d ? d.name[locale] : "";
+  };
+
+  const toggleSave = (id: string, e: React.MouseEvent) => {
+    e.stopPropagation();
+    setSaved((s) => ({ ...s, [id]: !s[id] }));
   };
 
   return (
@@ -67,58 +75,66 @@ export function Tours() {
                         ((tour.oldPrice - tour.price) / tour.oldPrice) * 100,
                       )
                     : 0;
+                  const isSaved = !!saved[tour.id];
                   return (
                     <Card
                       key={tour.id}
-                      className="group flex flex-col overflow-hidden rounded-3xl border border-border bg-card shadow-sm hover:shadow-2xl hover:shadow-primary/10 hover:-translate-y-1 transition-all duration-300 fade-up"
+                      className="group flex flex-col overflow-hidden rounded-[1.75rem] border border-border/60 bg-card shadow-md hover:shadow-2xl hover:shadow-primary/20 hover:-translate-y-1.5 transition-all duration-500 fade-up"
                       style={{ animationDelay: `${i * 60}ms` }}
                     >
-                      {/* Image */}
-                      <button
-                        type="button"
-                        onClick={() => openTour(tour)}
-                        aria-label={`${t.sections.tours.viewDetails}: ${tour.title[locale]}`}
-                        className="relative aspect-[16/10] overflow-hidden block w-full focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-inset"
-                      >
+                      {/* Image — taller for drama */}
+                      <div className="relative aspect-[16/11] overflow-hidden">
                         <img
                           src={tour.image}
                           alt={tour.title[locale]}
                           className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110"
                           loading="lazy"
                         />
-                        <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent" />
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
 
-                        {/* Discount badge */}
+                        {/* Discount badge — only if exists */}
                         {discount > 0 && (
-                          <Badge className="absolute top-3 start-3 bg-accent text-accent-foreground border-0 gap-1 shadow-md px-3 py-1">
+                          <Badge className="absolute top-3 start-3 bg-accent text-accent-foreground border-0 gap-1 shadow-lg px-3 py-1.5 text-xs">
                             <Flame className="h-3 w-3" />
                             {discount}% {t.sections.tours.off}
                           </Badge>
                         )}
                         {/* Best value badge */}
                         {i === 0 && cat === "all" && (
-                          <Badge className="absolute top-3 end-3 bg-primary text-primary-foreground border-0 shadow-md px-3 py-1 gap-1">
+                          <Badge className="absolute top-3 end-3 bg-primary text-primary-foreground border-0 shadow-lg px-3 py-1.5 text-xs gap-1">
                             <Tag className="h-3 w-3" /> {t.sections.tours.bestValue}
                           </Badge>
                         )}
 
-                        {/* Duration pill — bottom start */}
-                        <div className="absolute bottom-3 start-3 flex items-center gap-1.5 rounded-full bg-white/95 dark:bg-black/70 backdrop-blur px-3 py-1.5 text-xs font-bold shadow-md">
-                          <Clock className="h-3.5 w-3.5 text-primary" />
+                        {/* Duration pill — bottom start, contextual */}
+                        <div className="absolute bottom-3 start-3 flex items-center gap-1.5 rounded-full bg-black/40 backdrop-blur-md text-white px-3 py-1.5 text-xs font-bold">
+                          <Clock className="h-3.5 w-3.5" />
                           {tour.durationDays} {t.sections.tours.days}
                         </div>
 
-                        {/* Hover overlay */}
-                        <div className="absolute inset-0 grid place-items-center opacity-0 group-hover:opacity-100 transition-opacity bg-black/20 backdrop-blur-[1px]">
-                          <span className="grid h-12 w-12 place-items-center rounded-full bg-white/95 text-primary shadow-lg">
-                            <Info className="h-5 w-5" />
-                          </span>
-                        </div>
-                      </button>
+                        {/* Heart — only when no best-value badge */}
+                        {!(i === 0 && cat === "all") && (
+                          <button
+                            type="button"
+                            onClick={(e) => toggleSave(tour.id, e)}
+                            aria-label="Save"
+                            className="absolute top-3 end-3 grid h-10 w-10 place-items-center rounded-full bg-white/15 backdrop-blur-md hover:bg-white/25 transition-colors"
+                          >
+                            <Heart
+                              className={cn(
+                                "h-5 w-5 transition-all",
+                                isSaved
+                                  ? "fill-rose-500 text-rose-500 scale-110"
+                                  : "text-white",
+                              )}
+                            />
+                          </button>
+                        )}
+                      </div>
 
                       {/* Body */}
                       <div className="flex flex-col flex-1 p-5 sm:p-6">
-                        {/* Destination + rating row */}
+                        {/* Destination + group size row */}
                         <div className="flex items-center justify-between gap-3">
                           <div className="flex items-center gap-1 text-sm font-medium text-muted-foreground">
                             <MapPin className="h-3.5 w-3.5 text-primary" />
@@ -133,7 +149,7 @@ export function Tours() {
                           </div>
                         </div>
 
-                        {/* Title (clickable) */}
+                        {/* Title */}
                         <button
                           type="button"
                           onClick={() => openTour(tour)}
@@ -150,24 +166,19 @@ export function Tours() {
                         </p>
 
                         {/* Includes */}
-                        <div className="mt-4">
-                          <div className="text-[11px] uppercase tracking-wider text-muted-foreground font-semibold mb-2">
-                            {t.sections.tours.includes}
-                          </div>
-                          <div className="flex flex-wrap gap-1.5">
-                            {tour.includes[locale].slice(0, 3).map((inc, idx) => (
-                              <span
-                                key={idx}
-                                className="inline-flex items-center gap-1 rounded-md bg-muted px-2.5 py-1 text-xs font-medium text-muted-foreground"
-                              >
-                                <Check className="h-3 w-3 text-primary" />
-                                {inc}
-                              </span>
-                            ))}
-                          </div>
+                        <div className="mt-4 flex flex-wrap gap-1.5">
+                          {tour.includes[locale].slice(0, 3).map((inc, idx) => (
+                            <span
+                              key={idx}
+                              className="inline-flex items-center gap-1 rounded-md bg-muted px-2.5 py-1 text-xs font-medium text-muted-foreground"
+                            >
+                              <Check className="h-3 w-3 text-primary" />
+                              {inc}
+                            </span>
+                          ))}
                         </div>
 
-                        {/* Price + CTA — clear separation */}
+                        {/* Price + CTAs */}
                         <div className="mt-auto pt-5 flex items-end justify-between gap-3 border-t border-border">
                           <div>
                             {tour.oldPrice && (
@@ -184,32 +195,21 @@ export function Tours() {
                               </span>
                             </div>
                           </div>
-                          <div className="flex items-center gap-2">
-                            <Button
-                              size="sm"
-                              variant="outline"
-                              className="gap-1.5 h-10 px-3"
-                              onClick={() => openTour(tour)}
-                            >
-                              <Info className="h-4 w-4" />
-                              <span className="hidden sm:inline">{t.sections.tours.viewDetails}</span>
-                            </Button>
-                            <Button
-                              size="sm"
-                              className="gap-1.5 h-10 px-4 bg-primary text-primary-foreground hover:bg-primary/90 shadow-sm"
-                              onClick={() =>
-                                openBooking({
-                                  packageTitle: tour.title[locale],
-                                  destination: destName(tour.destinationId),
-                                  price: tour.price,
-                                  durationDays: tour.durationDays,
-                                })
-                              }
-                            >
-                              {t.sections.tours.bookNow}
-                              <ArrowRight className="h-4 w-4 rtl:rotate-180" />
-                            </Button>
-                          </div>
+                          <Button
+                            size="sm"
+                            className="gap-1.5 h-10 px-4 bg-primary text-primary-foreground hover:bg-primary/90 shadow-sm"
+                            onClick={() =>
+                              openBooking({
+                                packageTitle: tour.title[locale],
+                                destination: destName(tour.destinationId),
+                                price: tour.price,
+                                durationDays: tour.durationDays,
+                              })
+                            }
+                          >
+                            {t.sections.tours.bookNow}
+                            <ArrowRight className="h-4 w-4 rtl:rotate-180" />
+                          </Button>
                         </div>
                       </div>
                     </Card>

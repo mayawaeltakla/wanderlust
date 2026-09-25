@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import {
   Star,
   MapPin,
@@ -7,6 +8,7 @@ import {
   Wifi,
   Waves,
   ArrowRight,
+  Heart,
   Sparkles,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -16,6 +18,7 @@ import { useI18n } from "@/i18n/i18n-context";
 import { hotels } from "@/data/travel-data";
 import { SectionHeading } from "@/components/travel/section-heading";
 import { useBooking } from "@/components/providers/booking-context";
+import { cn } from "@/lib/utils";
 
 const AMENITY_ICON: Record<string, React.ElementType> = {
   Pool: Waves,
@@ -30,6 +33,12 @@ const AMENITY_ICON: Record<string, React.ElementType> = {
 export function Hotels() {
   const { t, locale } = useI18n();
   const { openBooking } = useBooking();
+  const [saved, setSaved] = useState<Record<string, boolean>>({});
+
+  const toggleSave = (id: string, e: React.MouseEvent) => {
+    e.stopPropagation();
+    setSaved((s) => ({ ...s, [id]: !s[id] }));
+  };
 
   return (
     <section
@@ -44,69 +53,90 @@ export function Hotels() {
         />
 
         <div className="mt-12 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
-          {hotels.map((h, i) => (
-            <Card
-              key={h.id}
-              className="group flex flex-col overflow-hidden rounded-3xl border border-border bg-card shadow-sm hover:shadow-2xl hover:shadow-primary/10 hover:-translate-y-1 transition-all duration-300 fade-up"
-              style={{ animationDelay: `${i * 70}ms` }}
-            >
-              {/* Image */}
-              <div className="relative aspect-[3/2] overflow-hidden">
-                <img
-                  src={h.image}
-                  alt={h.name}
-                  className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110"
-                  loading="lazy"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent" />
-                {h.badge && (
-                  <Badge className="absolute top-3 start-3 bg-accent text-accent-foreground border-0 shadow-md px-3 py-1">
-                    {h.badge[locale]}
-                  </Badge>
-                )}
-                {/* Stars — top end */}
-                <div className="absolute top-3 end-3 flex items-center gap-1 rounded-full bg-white/95 dark:bg-black/70 backdrop-blur px-2.5 py-1 text-xs font-bold shadow-md">
-                  <Star className="h-3 w-3 fill-amber-500 text-amber-500" />
-                  <span>{h.stars}</span>
-                </div>
-              </div>
+          {hotels.map((h, i) => {
+            const isSaved = !!saved[h.id];
+            return (
+              <Card
+                key={h.id}
+                className="group flex flex-col overflow-hidden rounded-[1.75rem] border border-border/60 bg-card shadow-md hover:shadow-2xl hover:shadow-primary/20 hover:-translate-y-1.5 transition-all duration-500 fade-up"
+                style={{ animationDelay: `${i * 70}ms` }}
+              >
+                {/* Image */}
+                <div className="relative aspect-[3/2] overflow-hidden">
+                  <img
+                    src={h.image}
+                    alt={h.name}
+                    className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110"
+                    loading="lazy"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent" />
 
-              {/* Body */}
-              <div className="flex flex-col flex-1 p-5 sm:p-6">
-                {/* Location */}
-                <div className="flex items-center gap-1.5 text-sm font-medium text-muted-foreground">
-                  <MapPin className="h-3.5 w-3.5 text-primary" />
-                  {h.location[locale]}
-                </div>
+                  {/* Badge (trending/luxury) */}
+                  {h.badge && (
+                    <Badge className="absolute top-3 start-3 bg-accent text-accent-foreground border-0 shadow-lg px-3 py-1.5">
+                      {h.badge[locale]}
+                    </Badge>
+                  )}
 
-                {/* Name */}
-                <h3 className="mt-1 text-xl font-bold leading-tight tracking-tight line-clamp-1">
-                  {h.name}
-                </h3>
+                  {/* Heart — top end */}
+                  <button
+                    type="button"
+                    onClick={(e) => toggleSave(h.id, e)}
+                    aria-label="Save"
+                    className="absolute top-3 end-3 grid h-10 w-10 place-items-center rounded-full bg-white/15 backdrop-blur-md hover:bg-white/25 transition-colors"
+                  >
+                    <Heart
+                      className={cn(
+                        "h-5 w-5 transition-all",
+                        isSaved
+                          ? "fill-rose-500 text-rose-500 scale-110"
+                          : "text-white",
+                      )}
+                    />
+                  </button>
 
-                {/* Rating + reviews */}
-                <div className="mt-2 flex items-center gap-1.5 text-sm">
-                  <div className="flex items-center gap-0.5">
-                    {Array.from({ length: 5 }).map((_, idx) => (
-                      <Star
-                        key={idx}
-                        className={`h-3.5 w-3.5 ${
-                          idx < Math.round(h.rating)
-                            ? "fill-amber-500 text-amber-500"
-                            : "fill-muted-foreground/20 text-muted-foreground/20"
-                        }`}
-                      />
-                    ))}
+                  {/* Stars rating — bottom start */}
+                  <div className="absolute bottom-3 start-3 flex items-center gap-1 rounded-full bg-black/40 backdrop-blur-md text-white px-3 py-1.5 text-xs font-bold">
+                    <Star className="h-3.5 w-3.5 fill-amber-400 text-amber-400" />
+                    {h.stars}
                   </div>
-                  <span className="font-bold">{h.rating.toFixed(1)}</span>
-                  <span className="text-muted-foreground">
-                    ({h.reviews.toLocaleString()} {t.sections.hotels.reviews})
-                  </span>
                 </div>
 
-                {/* Amenities */}
-                <div className="mt-4">
-                  <div className="flex flex-wrap gap-2">
+                {/* Body */}
+                <div className="flex flex-col flex-1 p-5 sm:p-6">
+                  {/* Location */}
+                  <div className="flex items-center gap-1.5 text-sm font-medium text-muted-foreground">
+                    <MapPin className="h-3.5 w-3.5 text-primary" />
+                    {h.location[locale]}
+                  </div>
+
+                  {/* Name */}
+                  <h3 className="mt-1 text-xl font-bold leading-tight tracking-tight line-clamp-1">
+                    {h.name}
+                  </h3>
+
+                  {/* Rating — single line */}
+                  <div className="mt-2 flex items-center gap-2 text-sm">
+                    <div className="flex items-center gap-0.5">
+                      {Array.from({ length: 5 }).map((_, idx) => (
+                        <Star
+                          key={idx}
+                          className={`h-3.5 w-3.5 ${
+                            idx < Math.round(h.rating)
+                              ? "fill-amber-500 text-amber-500"
+                              : "fill-muted-foreground/20 text-muted-foreground/20"
+                          }`}
+                        />
+                      ))}
+                    </div>
+                    <span className="font-bold">{h.rating.toFixed(1)}</span>
+                    <span className="text-muted-foreground">
+                      ({h.reviews.toLocaleString()} {t.sections.hotels.reviews})
+                    </span>
+                  </div>
+
+                  {/* Amenities */}
+                  <div className="mt-4 flex flex-wrap gap-2">
                     {h.amenities.map((a) => {
                       const Icon = AMENITY_ICON[a] ?? Wifi;
                       return (
@@ -120,38 +150,38 @@ export function Hotels() {
                       );
                     })}
                   </div>
-                </div>
 
-                {/* Price + CTA */}
-                <div className="mt-auto pt-5 flex items-end justify-between gap-3 border-t border-border">
-                  <div>
-                    <div className="text-[11px] uppercase tracking-wider text-muted-foreground font-medium">
-                      {t.sections.hotels.perNight}
+                  {/* Price + CTA */}
+                  <div className="mt-auto pt-5 flex items-end justify-between gap-3 border-t border-border">
+                    <div>
+                      <div className="text-[11px] uppercase tracking-wider text-muted-foreground font-medium">
+                        {t.sections.hotels.perNight}
+                      </div>
+                      <div className="flex items-baseline gap-1 mt-0.5">
+                        <span className="text-2xl font-bold text-foreground">
+                          ${h.pricePerNight}
+                        </span>
+                      </div>
                     </div>
-                    <div className="flex items-baseline gap-1 mt-0.5">
-                      <span className="text-2xl font-bold text-foreground">
-                        ${h.pricePerNight}
-                      </span>
-                    </div>
+                    <Button
+                      className="gap-1.5 h-10 px-4 bg-primary text-primary-foreground hover:bg-primary/90 shadow-sm"
+                      onClick={() =>
+                        openBooking({
+                          packageTitle: `${h.name} - ${h.location[locale]}`,
+                          destination: h.location[locale],
+                          price: h.pricePerNight,
+                          durationDays: 1,
+                        })
+                      }
+                    >
+                      {t.sections.hotels.book}
+                      <ArrowRight className="h-4 w-4 rtl:rotate-180" />
+                    </Button>
                   </div>
-                  <Button
-                    className="gap-1.5 h-10 px-4 bg-primary text-primary-foreground hover:bg-primary/90 shadow-sm"
-                    onClick={() =>
-                      openBooking({
-                        packageTitle: `${h.name} - ${h.location[locale]}`,
-                        destination: h.location[locale],
-                        price: h.pricePerNight,
-                        durationDays: 1,
-                      })
-                    }
-                  >
-                    {t.sections.hotels.book}
-                    <ArrowRight className="h-4 w-4 rtl:rotate-180" />
-                  </Button>
                 </div>
-              </div>
-            </Card>
-          ))}
+              </Card>
+            );
+          })}
         </div>
       </div>
     </section>
