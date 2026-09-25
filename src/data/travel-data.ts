@@ -27,6 +27,51 @@ const SCENE =
 
 export const HERO_IMAGE = SCENE;
 
+// 3 real photos per destination (fetched via image-search) — used for destination
+// galleries AND inherited by tours whose destinationId points to them.
+const G = {
+  paris: [
+    "https://z-cdn.chatglm.cn/image-search-mcp/images-ppt/c6e66d4e2d69.jpg",
+    "https://z-cdn.chatglm.cn/image-search-mcp/images-ppt/f2883c546516.jpg",
+    "https://z-cdn.chatglm.cn/image-search-mcp/images-ppt/f5da02f98004.jpg",
+  ],
+  dubai: [
+    "https://z-cdn.chatglm.cn/image-search-mcp/images-ppt/194955c2314b.jpg",
+    "https://z-cdn.chatglm.cn/image-search-mcp/images-ppt/aad90aa68d66.jpg",
+    "https://z-cdn.chatglm.cn/image-search-mcp/images-ppt/22f0f0a60d5b.jpg",
+  ],
+  tokyo: [
+    "https://z-cdn.chatglm.cn/image-search-mcp/images-ppt/f8afbdda441e.jpg",
+    "https://z-cdn.chatglm.cn/image-search-mcp/images-ppt/09849e0e4884.jpg",
+    "https://z-cdn.chatglm.cn/image-search-mcp/images-ppt/ab3af7ca714c.jpeg",
+  ],
+  bali: [
+    "https://z-cdn.chatglm.cn/image-search-mcp/images-ppt/c33e2f14dda0.jpg",
+    "https://z-cdn.chatglm.cn/image-search-mcp/images-ppt/b69119ab18a7.jpg",
+    "https://z-cdn.chatglm.cn/image-search-mcp/images-ppt/38b3fc091907.jpeg",
+  ],
+  santorini: [
+    "https://z-cdn.chatglm.cn/image-search-mcp/images-ppt/e107129dfc04.jpeg",
+    "https://z-cdn.chatglm.cn/image-search-mcp/images-ppt/208f782c5673.jpg",
+    "https://z-cdn.chatglm.cn/image-search-mcp/images-ppt/a25286056622.jpg",
+  ],
+  maldives: [
+    "https://z-cdn.chatglm.cn/image-search-mcp/images-ppt/36a03ec4b115.jpg",
+    "https://z-cdn.chatglm.cn/image-search-mcp/images-ppt/949000256961.jpg",
+    "https://z-cdn.chatglm.cn/image-search-mcp/images-ppt/02ca303a93b4.jpg",
+  ],
+  istanbul: [
+    "https://z-cdn.chatglm.cn/image-search-mcp/images-ppt/6a070cfa0ce3.jpg",
+    "https://z-cdn.chatglm.cn/image-search-mcp/images-ppt/39f1ec54e47f.jpeg",
+    "https://z-cdn.chatglm.cn/image-search-mcp/images-ppt/66eeb12b97b6.jpg",
+  ],
+  rome: [
+    "https://z-cdn.chatglm.cn/image-search-mcp/images-ppt/257cc1154ffd.jpg",
+    "https://z-cdn.chatglm.cn/image-search-mcp/images-ppt/1a81f38c5164.jpg",
+    "https://z-cdn.chatglm.cn/image-search-mcp/images-ppt/8e8f8243c350.jpg",
+  ],
+};
+
 export const destinations: Destination[] = [
   {
     id: "d1",
