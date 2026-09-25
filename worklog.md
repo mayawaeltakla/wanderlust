@@ -141,3 +141,21 @@ Stage Summary:
 - Rich professional detail dialogs for every destination (8) and every tour (6) with galleries, itineraries, quick facts, reviews, booking sidebar
 - Booking flow verified end-to-end with new date selector
 - All 3 user requests delivered
+
+---
+Task ID: 5
+Agent: orchestrator (main)
+Task: Redesign cards to be wider, larger, more professional with organized text
+
+Work Log:
+- Destinations: changed grid lg:grid-cols-4 → lg:grid-cols-3 (wider cards); redesigned card from portrait image+overlay to landscape image (aspect-3/2) + clean body section; body now has clear hierarchy: country (pin icon) → name (text-2xl bold) → 5-star row + review count → divider → price (text-2xl primary) + per-person → full-width "View Details" button; rounded-3xl, hover lift + shadow, image zoom
+- Tours: kept 3-col (xl:grid-cols-3); reorganized body into clear sections with labels: destination+rating row → title (2-line clamp) → description → "Includes" label + chips → divider → price + View Details + Book buttons; rounded-3xl, pill-style tabs, hover lift
+- Hotels: changed grid lg:grid-cols-4 → lg:grid-cols-3; reorganized body: location → name (text-xl) → 5-star row + reviews → amenities icons grid → divider → per-night label + price + Book button; rounded-3xl, hover lift
+- All cards: rounded-3xl corners, hover -translate-y-1 lift, shadow-2xl with primary tint, image scale-110 on hover, focus-visible rings for a11y
+- lint: 0 errors; agent-browser + VLM verified all 3 sections render with clean image-top + body-bottom structure, professional and uncrowded
+
+Stage Summary:
+- Cards are now wider (3 per row), larger, with clean separation between image and text body
+- Text organized in clear hierarchy with labels and dividers
+- Premium hover effects (lift, shadow, zoom) added
+- All 3 sections (destinations/tours/hotels) consistent in design language
