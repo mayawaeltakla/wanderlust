@@ -248,3 +248,19 @@ Stage Summary:
 - Destination detail modal now matches user spec exactly: image overlay + 6-card grid + bottom bar
 - No floating elements, no overlap, full RTL, responsive, keeps orange/white identity
 - Visa info added as 6th card (replacing capital in display)
+
+---
+Task ID: 9
+Agent: orchestrator (main)
+Task: Add 3 distinct real photos per destination gallery
+
+Work Log:
+- Fetched 3 real photos per destination via z-ai image-search (8 destinations × 3 = 24 images), sequential with 7s delays to avoid 429; Tokyo retry needed (first query empty, second succeeded)
+- Added `G` constant to travel-data.ts with 3 image URLs per destination (paris/dubai/tokyo/bali/santorini/maldives/istanbul/rome)
+- Replaced all 14 gallery lines (8 destinations + 6 tours) with `[...G.xxx]` spreads — each destination now shows 3 of ITS OWN photos; each tour inherits its destination's 3 photos (Paris tour → G.paris, Dubai tour → G.dubai, Bali tour → G.bali, Santorini tour → G.santorini, Maldives tour → G.maldives, Istanbul tour → G.istanbul)
+- lint: 0 errors; verified via agent-browser + VLM: Paris gallery = Eiffel Tower (Trocadéro) → Louvre → third Paris landmark (3 distinct, not mixed); Dubai gallery = Burj Khalifa day → night skyline → third (3 distinct)
+- Slider still works (Next button advances through the 3 destination-specific photos)
+
+Stage Summary:
+- Each destination + tour detail dialog now has a 3-photo gallery of THAT destination (no more mixing Rome/Swiss/generic into Paris gallery)
+- 8 destinations × 3 unique real photos = 24 destination-specific images

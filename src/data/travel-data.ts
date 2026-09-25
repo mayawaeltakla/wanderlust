@@ -105,7 +105,7 @@ export const destinations: Destination[] = [
     language: { ar: "الفرنسية", en: "French", fr: "Français", tr: "Fransızca", ru: "Французский", zh: "法语" },
     visa: { ar: "تأشيرة شنجن مطلوبة", en: "Schengen visa required", fr: "Visa Schengen requis", tr: "Schengen vizesi gerekli", ru: "Нужна шенгенская виза", zh: "需申根签证" },
     timezone: "GMT+1 (CET)",
-    gallery: [IMG.paris, IMG.rome, IMG.swiss, SCENE],
+    gallery: [...G.paris],
   },
   {
     id: "d2",
@@ -139,7 +139,7 @@ export const destinations: Destination[] = [
     language: { ar: "العربية", en: "Arabic", fr: "Arabe", tr: "Arapça", ru: "Арабский", zh: "阿拉伯语" },
     visa: { ar: "تأشيرة إلكترونية / عند الوصول", en: "e-Visa / visa on arrival", fr: "e-Visa / visa à l'arrivée", tr: "e-Vize / varışta vize", ru: "Электронная виза / по прибытии", zh: "电子签/落地签" },
     timezone: "GMT+4 (GST)",
-    gallery: [IMG.dubai, SCENE, IMG.rome, IMG.swiss],
+    gallery: [...G.dubai],
   },
   {
     id: "d3",
@@ -173,7 +173,7 @@ export const destinations: Destination[] = [
     language: { ar: "اليابانية", en: "Japanese", fr: "Japonais", tr: "Japonca", ru: "Японский", zh: "日语" },
     visa: { ar: "تأشيرة مجانية لـ 70+ جنسية", en: "Visa-free for 70+ nationalities", fr: "Sans visa: 70+ nationalités", tr: "70+ ülke için vizesiz", ru: "Без визы для 70+ стран", zh: "70+国免签" },
     timezone: "GMT+9 (JST)",
-    gallery: [IMG.tokyo, IMG.rome, IMG.swiss, SCENE],
+    gallery: [...G.tokyo],
   },
   {
     id: "d4",
@@ -214,7 +214,7 @@ export const destinations: Destination[] = [
     },
     visa: { ar: "تأشيرة عند الوصول (30 يوم)", en: "Visa on arrival (30 days)", fr: "Visa à l'arrivée (30 jours)", tr: "Varışta vize (30 gün)", ru: "Виза по прибытии (30 дней)", zh: "落地签（30天）" },
     timezone: "GMT+8 (WITA)",
-    gallery: [IMG.bali, IMG.maldives, SCENE, IMG.swiss],
+    gallery: [...G.bali],
   },
   {
     id: "d5",
@@ -248,7 +248,7 @@ export const destinations: Destination[] = [
     language: { ar: "اليونانية", en: "Greek", fr: "Grec", tr: "Yunanca", ru: "Греческий", zh: "希腊语" },
     visa: { ar: "تأشيرة شنجن مطلوبة", en: "Schengen visa required", fr: "Visa Schengen requis", tr: "Schengen vizesi gerekli", ru: "Нужна шенгенская виза", zh: "需申根签证" },
     timezone: "GMT+2 (EET)",
-    gallery: [IMG.santorini, IMG.maldives, SCENE, IMG.rome],
+    gallery: [...G.santorini],
   },
   {
     id: "d6",
@@ -282,7 +282,7 @@ export const destinations: Destination[] = [
     language: { ar: "الديفهية", en: "Dhivehi", fr: "Dhivehi", tr: "Divehi", ru: "Дивехи", zh: "迪维希语" },
     visa: { ar: "تأشيرة مجانية 30 يوم عند الوصول", en: "Free 30-day visa on arrival", fr: "Visa gratuit 30j à l'arrivée", tr: "Ücretsiz 30 günlük varış vizesi", ru: "30 дней бесплатно по прибытии", zh: "免费30天落地签" },
     timezone: "GMT+5 (MVT)",
-    gallery: [IMG.maldives, IMG.bali, SCENE, IMG.santorini],
+    gallery: [...G.maldives],
   },
   {
     id: "d7",
@@ -316,7 +316,7 @@ export const destinations: Destination[] = [
     language: { ar: "التركية", en: "Turkish", fr: "Turc", tr: "Türkçe", ru: "Турецкий", zh: "土耳其语" },
     visa: { ar: "تأشيرة إلكترونية (سهلة)", en: "e-Visa required (easy online)", fr: "e-Visa requis (en ligne)", tr: "e-Vize gerekli (kolay online)", ru: "Нужна e-виза (онлайн легко)", zh: "需电子签（在线易办）" },
     timezone: "GMT+3 (TRT)",
-    gallery: [IMG.istanbul, IMG.rome, IMG.swiss, SCENE],
+    gallery: [...G.istanbul],
   },
   {
     id: "d8",
@@ -350,7 +350,7 @@ export const destinations: Destination[] = [
     language: { ar: "الإيطالية", en: "Italian", fr: "Italien", tr: "İtalyanca", ru: "Итальянский", zh: "意大利语" },
     visa: { ar: "تأشيرة شنجن مطلوبة", en: "Schengen visa required", fr: "Visa Schengen requis", tr: "Schengen vizesi gerekli", ru: "Нужна шенгенская виза", zh: "需申根签证" },
     timezone: "GMT+1 (CET)",
-    gallery: [IMG.rome, IMG.paris, IMG.swiss, SCENE],
+    gallery: [...G.rome],
   },
 ];
 
@@ -550,7 +550,7 @@ export const tours: Tour[] = [
     },
     groupSize: "2–12 travelers",
     difficulty: "easy",
-    gallery: [IMG.paris, IMG.rome, IMG.swiss, SCENE],
+    gallery: [...G.paris],
   },
   {
     id: "t2",
@@ -709,7 +709,7 @@ export const tours: Tour[] = [
     },
     groupSize: "2–10 travelers",
     difficulty: "moderate",
-    gallery: [IMG.dubai, SCENE, IMG.rome, IMG.swiss],
+    gallery: [...G.dubai],
   },
   {
     id: "t3",
@@ -905,7 +905,7 @@ export const tours: Tour[] = [
     },
     groupSize: "2–14 travelers",
     difficulty: "easy",
-    gallery: [IMG.bali, IMG.maldives, SCENE, IMG.swiss],
+    gallery: [...G.bali],
   },
   {
     id: "t4",
@@ -1083,7 +1083,7 @@ export const tours: Tour[] = [
     },
     groupSize: "2 travelers (couples)",
     difficulty: "easy",
-    gallery: [IMG.santorini, IMG.maldives, SCENE, IMG.rome],
+    gallery: [...G.santorini],
   },
   {
     id: "t5",
@@ -1242,7 +1242,7 @@ export const tours: Tour[] = [
     },
     groupSize: "2 travelers (couples)",
     difficulty: "easy",
-    gallery: [IMG.maldives, IMG.bali, SCENE, IMG.santorini],
+    gallery: [...G.maldives],
   },
   {
     id: "t6",
@@ -1381,7 +1381,7 @@ export const tours: Tour[] = [
     },
     groupSize: "2–14 travelers",
     difficulty: "easy",
-    gallery: [IMG.istanbul, IMG.rome, IMG.swiss, SCENE],
+    gallery: [...G.istanbul],
   },
 ];
 
