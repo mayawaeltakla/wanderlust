@@ -264,3 +264,20 @@ Work Log:
 Stage Summary:
 - Each destination + tour detail dialog now has a 3-photo gallery of THAT destination (no more mixing Rome/Swiss/generic into Paris gallery)
 - 8 destinations × 3 unique real photos = 24 destination-specific images
+
+---
+Task ID: 10
+Agent: orchestrator (main)
+Task: Fix "blank slide flash" in gallery — preload all images with stacked crossfade
+
+Work Log:
+- Diagnosed: single <img> with src={gallery[activeImg]} meant the browser only loaded the NEXT image when the slide changed → brief blank flash during load (the user's "blank then same image" complaint)
+- Fix: switched both detail dialogs to STACKED rendering — all gallery images render simultaneously (absolute inset-0), only the active one at opacity-100, others opacity-0, with transition-opacity duration-700 crossfade
+- Added loading="eager" + decoding="async" so all images preload immediately when the modal opens
+- Made gradient overlay pointer-events-none (so it never blocks dots/buttons)
+- Verified: 3 stacked <img> elements present in DOM after modal open; clicking Next shows Eiffel (Trocadéro) → Louvre → third Paris landmark, all instantly with NO blank flash
+- lint: 0 errors
+
+Stage Summary:
+- Gallery no longer flashes blank between slides — all 3 destination photos are preloaded and crossfade smoothly
+- Same fix applied to both destination and tour detail dialogs

@@ -99,12 +99,21 @@ export function TourDetailDialog() {
           onBlur={resume}
           className="relative aspect-[16/9] sm:aspect-[2/1] overflow-hidden bg-muted"
         >
-          <img
-            src={gallery[activeImg]}
-            alt={`${tour.title[locale]} ${activeImg + 1}`}
-            className="h-full w-full object-cover transition-opacity duration-500"
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/15 to-transparent" />
+          {/* Stacked images — all preloaded, crossfade between active slide. */}
+          {gallery.map((src, i) => (
+            <img
+              key={src + i}
+              src={src}
+              alt={`${tour.title[locale]} ${i + 1}`}
+              className={cn(
+                "absolute inset-0 h-full w-full object-cover transition-opacity duration-700",
+                i === activeImg ? "opacity-100" : "opacity-0",
+              )}
+              loading="eager"
+              decoding="async"
+            />
+          ))}
+          <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/15 to-transparent pointer-events-none" />
 
           <button
             onClick={close}

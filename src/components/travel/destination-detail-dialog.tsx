@@ -90,13 +90,23 @@ export function DestinationDetailDialog() {
           onBlur={resume}
           className="relative aspect-[16/10] sm:aspect-[2/1] shrink-0 overflow-hidden bg-muted"
         >
-          <img
-            src={gallery[activeImg]}
-            alt={`${d.name[locale]} ${activeImg + 1}`}
-            className="h-full w-full object-cover transition-opacity duration-500"
-          />
+          {/* Stacked images — all preloaded, crossfade between active slide.
+              No blank flash because every image is rendered (even at opacity-0). */}
+          {gallery.map((src, i) => (
+            <img
+              key={src + i}
+              src={src}
+              alt={`${d.name[locale]} ${i + 1}`}
+              className={cn(
+                "absolute inset-0 h-full w-full object-cover transition-opacity duration-700",
+                i === activeImg ? "opacity-100" : "opacity-0",
+              )}
+              loading="eager"
+              decoding="async"
+            />
+          ))}
           {/* gradient for legibility */}
-          <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/25 to-black/10" />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/25 to-black/10 pointer-events-none" />
 
           {/* Close — top end, always on top */}
           <button
