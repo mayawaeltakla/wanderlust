@@ -176,3 +176,21 @@ Work Log:
 Stage Summary:
 - Cards now match premium travel UI standards (Airbnb/Booking style)
 - Dramatic visual difference from before: taller images, organized overlays, heart icons, prominent amber prices, glassmorphism, premium hover effects
+
+---
+Task ID: 7
+Agent: orchestrator (main)
+Task: Fix broken slider in detail dialogs + add keyboard nav + autoplay
+
+Work Log:
+- Reproduced bug: agent-browser confirmed Next button was "covered by div.flex.items-center" — the title overlay div (last in DOM) stacked above the prev/next/dots, blocking all clicks
+- Fix 1 (z-index): added z-30 to prev/next buttons + dots container; made title overlay z-10 + pointer-events-none so it never blocks slider controls (applied to both destination-detail-dialog.tsx and tour-detail-dialog.tsx)
+- Fix 2 (shared hook): created src/hooks/use-gallery.ts — manages active index, prev/next/goTo, keyboard arrow navigation (respects RTL), auto-play (5.5s interval) with pause-on-hover/focus
+- Integrated useGallery into both detail dialogs (moved hook call before early return to satisfy rules-of-hooks; computed galleryLength before return)
+- lint: 0 errors 0 warnings
+- Verified via agent-browser: manual Next button works (Eiffel → Colosseum), keyboard ArrowRight works (beach → mountain), autoplay works when mouse not hovering (glacier → tropical beach)
+
+Stage Summary:
+- Slider in detail dialogs now fully functional: click arrows, click dots, press ArrowLeft/ArrowRight, or auto-advances every 5.5s (pauses on hover/focus)
+- Both destination (8 cards) and tour (6 cards) detail dialogs use the shared useGallery hook
+- Fixes the "slider doesn't work / image doesn't move" complaint

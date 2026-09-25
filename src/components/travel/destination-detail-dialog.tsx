@@ -1,6 +1,5 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import {
   X,
   Star,
@@ -31,6 +30,7 @@ import { useBooking } from "@/components/providers/booking-context";
 import { useI18n } from "@/i18n/i18n-context";
 import { tours } from "@/data/travel-data";
 import { cn } from "@/lib/utils";
+import { useGallery } from "@/hooks/use-gallery";
 
 export function DestinationDetailDialog() {
   const { detail, close } = useDetail();
@@ -40,19 +40,16 @@ export function DestinationDetailDialog() {
   const isOpen = detail?.kind === "destination";
   const d = detail?.kind === "destination" ? detail.destination : null;
 
-  const [activeImg, setActiveImg] = useState(0);
+  // Compute gallery length before the early return so the hook is called unconditionally
+  const galleryLength = d ? (d.gallery.length || 1) : 1;
+  const gallery = d ? (d.gallery.length ? d.gallery : [d.image]) : [];
 
-  useEffect(() => {
-    // Reset gallery to first image when destination changes.
-    // eslint-disable-next-line react-hooks/set-state-in-effect
-    setActiveImg(0);
-  }, [d?.id]);
+  const { active: activeImg, next, prev, goTo, setActive: setActiveImg, pause, resume, containerRef } =
+    useGallery({ length: galleryLength });
 
   if (!d) return null;
 
-  const gallery = d.gallery.length ? d.gallery : [d.image];
   const relatedTours = tours.filter((x) => x.destinationId === d.id);
-
   const facts = [
     { icon: CalendarDays, label: t.detail.destination.bestTime, value: d.bestTime[locale] },
     { icon: Coins, label: t.detail.destination.currency, value: d.currency },
@@ -61,10 +58,6 @@ export function DestinationDetailDialog() {
     { icon: Clock, label: t.detail.destination.timezone, value: d.timezone },
     { icon: Compass, label: t.detail.destination.toursAvailable, value: String(d.tours) },
   ];
-
-  const prev = () =>
-    setActiveImg((i) => (i - 1 + gallery.length) % gallery.length);
-  const next = () => setActiveImg((i) => (i + 1) % gallery.length);
 
   const onPlanTrip = () => {
     close();
@@ -89,7 +82,14 @@ export function DestinationDetailDialog() {
         </DialogDescription>
 
         {/* Hero gallery */}
-        <div className="relative aspect-[16/9] sm:aspect-[2/1] overflow-hidden bg-muted">
+        <div
+          ref={containerRef}
+          onMouseEnter={pause}
+          onMouseLeave={resume}
+          onFocus={pause}
+          onBlur={resume}
+          className="relative aspect-[16/9] sm:aspect-[2/1] overflow-hidden bg-muted"
+        >
           <img
             src={gallery[activeImg]}
             alt={`${d.name[locale]} ${activeImg + 1}`}
@@ -110,18 +110,18 @@ export function DestinationDetailDialog() {
               <button
                 onClick={prev}
                 aria-label="Previous"
-                className="absolute top-1/2 -translate-y-1/2 start-3 grid h-10 w-10 place-items-center rounded-full bg-black/40 backdrop-blur text-white hover:bg-black/60 transition-colors"
+                className="absolute top-1/2 -translate-y-1/2 start-3 grid h-10 w-10 place-items-center rounded-full bg-black/40 backdrop-blur text-white hover:bg-black/60 transition-colors z-30"
               >
                 <ChevronLeft className="h-5 w-5 rtl:rotate-180" />
               </button>
               <button
                 onClick={next}
                 aria-label="Next"
-                className="absolute top-1/2 -translate-y-1/2 end-3 grid h-10 w-10 place-items-center rounded-full bg-black/40 backdrop-blur text-white hover:bg-black/60 transition-colors"
+                className="absolute top-1/2 -translate-y-1/2 end-3 grid h-10 w-10 place-items-center rounded-full bg-black/40 backdrop-blur text-white hover:bg-black/60 transition-colors z-30"
               >
                 <ChevronRight className="h-5 w-5 rtl:rotate-180" />
               </button>
-              <div className="absolute bottom-3 start-1/2 -translate-x-1/2 rtl:translate-x-1/2 flex gap-1.5">
+              <div className="absolute bottom-3 start-1/2 -translate-x-1/2 rtl:translate-x-1/2 flex gap-1.5 z-30">
                 {gallery.map((_, i) => (
                   <button
                     key={i}
@@ -137,8 +137,8 @@ export function DestinationDetailDialog() {
             </>
           )}
 
-          {/* Title overlay */}
-          <div className="absolute inset-x-0 bottom-0 p-5 sm:p-8 text-white">
+          {/* Title overlay — pointer-events-none so it never blocks the slider controls */}
+          <div className="absolute inset-x-0 bottom-0 p-5 sm:p-8 text-white z-10 pointer-events-none">
             <div className="flex items-center gap-1.5 text-sm font-medium text-white/90 mb-1">
               <MapPin className="h-4 w-4" />
               {d.country[locale]}

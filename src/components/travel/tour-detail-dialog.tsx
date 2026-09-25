@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useMemo } from "react";
 import {
   X,
   Star,
@@ -32,6 +32,7 @@ import { useBooking } from "@/components/providers/booking-context";
 import { useI18n } from "@/i18n/i18n-context";
 import { destinations, testimonials } from "@/data/travel-data";
 import { cn } from "@/lib/utils";
+import { useGallery } from "@/hooks/use-gallery";
 
 function initials(name: string) {
   const p = name.trim().split(/\s+/);
@@ -46,31 +47,25 @@ export function TourDetailDialog() {
   const isOpen = detail?.kind === "tour";
   const tour = detail?.kind === "tour" ? detail.tour : null;
 
-  const [activeImg, setActiveImg] = useState(0);
-
-  useEffect(() => {
-    // Reset gallery to first image when tour changes.
-    // eslint-disable-next-line react-hooks/set-state-in-effect
-    setActiveImg(0);
-  }, [tour?.id]);
-
   const dest = useMemo(
     () => destinations.find((d) => d.id === tour?.destinationId),
     [tour?.destinationId],
   );
 
+  // Compute gallery length before the early return so the hook is called unconditionally
+  const galleryLength = tour ? (tour.gallery.length || 1) : 1;
+  const gallery = tour ? (tour.gallery.length ? tour.gallery : [tour.image]) : [];
+
+  const { active: activeImg, next, prev, setActive: setActiveImg, pause, resume, containerRef } =
+    useGallery({ length: galleryLength });
+
   if (!tour) return null;
 
-  const gallery = tour.gallery.length ? tour.gallery : [tour.image];
   const discount = tour.oldPrice
     ? Math.round(((tour.oldPrice - tour.price) / tour.oldPrice) * 100)
     : 0;
 
   const relatedReviews = testimonials.slice(0, 2);
-
-  const prev = () =>
-    setActiveImg((i) => (i - 1 + gallery.length) % gallery.length);
-  const next = () => setActiveImg((i) => (i + 1) % gallery.length);
 
   const onBook = () => {
     close();
@@ -96,7 +91,14 @@ export function TourDetailDialog() {
         </DialogDescription>
 
         {/* Hero gallery */}
-        <div className="relative aspect-[16/9] sm:aspect-[2/1] overflow-hidden bg-muted">
+        <div
+          ref={containerRef}
+          onMouseEnter={pause}
+          onMouseLeave={resume}
+          onFocus={pause}
+          onBlur={resume}
+          className="relative aspect-[16/9] sm:aspect-[2/1] overflow-hidden bg-muted"
+        >
           <img
             src={gallery[activeImg]}
             alt={`${tour.title[locale]} ${activeImg + 1}`}
@@ -117,18 +119,18 @@ export function TourDetailDialog() {
               <button
                 onClick={prev}
                 aria-label="Previous"
-                className="absolute top-1/2 -translate-y-1/2 start-3 grid h-10 w-10 place-items-center rounded-full bg-black/40 backdrop-blur text-white hover:bg-black/60 transition-colors"
+                className="absolute top-1/2 -translate-y-1/2 start-3 grid h-10 w-10 place-items-center rounded-full bg-black/40 backdrop-blur text-white hover:bg-black/60 transition-colors z-30"
               >
                 <ChevronLeft className="h-5 w-5 rtl:rotate-180" />
               </button>
               <button
                 onClick={next}
                 aria-label="Next"
-                className="absolute top-1/2 -translate-y-1/2 end-3 grid h-10 w-10 place-items-center rounded-full bg-black/40 backdrop-blur text-white hover:bg-black/60 transition-colors"
+                className="absolute top-1/2 -translate-y-1/2 end-3 grid h-10 w-10 place-items-center rounded-full bg-black/40 backdrop-blur text-white hover:bg-black/60 transition-colors z-30"
               >
                 <ChevronRight className="h-5 w-5 rtl:rotate-180" />
               </button>
-              <div className="absolute bottom-3 start-1/2 -translate-x-1/2 rtl:translate-x-1/2 flex gap-1.5 z-10">
+              <div className="absolute bottom-3 start-1/2 -translate-x-1/2 rtl:translate-x-1/2 flex gap-1.5 z-30">
                 {gallery.map((_, i) => (
                   <button
                     key={i}
@@ -144,7 +146,7 @@ export function TourDetailDialog() {
             </>
           )}
 
-          <div className="absolute inset-x-0 bottom-0 p-5 sm:p-8 text-white">
+          <div className="absolute inset-x-0 bottom-0 p-5 sm:p-8 text-white z-10 pointer-events-none">
             <div className="flex flex-wrap items-center gap-2 mb-2">
               <Badge className="bg-accent text-accent-foreground border-0">
                 <Clock className="h-3 w-3 me-1" />
