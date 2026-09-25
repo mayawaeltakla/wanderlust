@@ -149,6 +149,7 @@ const fr: Dict = {
       bestTime: "Meilleure période",
       currency: "Monnaie",
       language: "Langue",
+      visa: "Visa",
       capital: "Capitale",
       timezone: "Fuseau horaire",
       toursAvailable: "Circuits disponibles",

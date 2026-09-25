@@ -36,6 +36,7 @@ export interface Destination {
   currency: string;
   capital: Record<Locale, string>;
   language: Record<Locale, string>;
+  visa: Record<Locale, string>;
   timezone: string;
   gallery: string[];
 }

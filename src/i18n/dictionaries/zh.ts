@@ -149,6 +149,7 @@ const zh: Dict = {
       bestTime: "最佳出行时间",
       currency: "货币",
       language: "语言",
+      visa: "签证",
       capital: "首都",
       timezone: "时区",
       toursAvailable: "可选线路",

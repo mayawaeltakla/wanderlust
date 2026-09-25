@@ -151,6 +151,7 @@ const en = {
       bestTime: "Best Time to Visit",
       currency: "Currency",
       language: "Language",
+      visa: "Visa",
       capital: "Capital",
       timezone: "Time Zone",
       toursAvailable: "Tours Available",

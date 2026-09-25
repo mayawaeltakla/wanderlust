@@ -149,6 +149,7 @@ const ar: Dict = {
       bestTime: "أفضل وقت للزيارة",
       currency: "العملة",
       language: "اللغة",
+      visa: "التأشيرة",
       capital: "العاصمة",
       timezone: "المنطقة الزمنية",
       toursAvailable: "الجولات المتاحة",

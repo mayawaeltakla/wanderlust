@@ -194,3 +194,57 @@ Stage Summary:
 - Slider in detail dialogs now fully functional: click arrows, click dots, press ArrowLeft/ArrowRight, or auto-advances every 5.5s (pauses on hover/focus)
 - Both destination (8 cards) and tour (6 cards) detail dialogs use the shared useGallery hook
 - Fixes the "slider doesn't work / image doesn't move" complaint
+
+---
+Task ID: 8-a
+Agent: general-purpose (visa field)
+Task: Add `visa` (تأشيرة) field to travel data model and dictionaries, in all 6 locales (ar, en, fr, tr, ru, zh)
+
+Work Log:
+- Read worklog.md for prior context (8 destinations, 6 locales, full i18n structure)
+- Read src/lib/types.ts (Destination interface) and src/i18n/dictionaries/* for structure
+- Grep'd travel-data.ts to locate each destination's `language:` line (8 occurrences at lines 60, 93, 126, 159-166 multi-line for Bali, 199, 232, 265, 298)
+- Added `visa: Record<Locale, string>;` to Destination interface in src/lib/types.ts, right after `language:` (before `timezone`, `gallery`). `capital` preserved.
+- Added `visa` field to all 8 destinations in src/data/travel-data.ts, with values translated to all 6 locales. Placed each `visa:` line immediately after the `language:` field, before `timezone:`:
+  - d1 Paris: "Schengen visa required" / "تأشيرة شنجن مطلوبة" / "Visa Schengen requis" / "Schengen vizesi gerekli" / "Нужна шенгенская виза" / "需申根签证"
+  - d2 Dubai: "e-Visa / visa on arrival" / "تأشيرة إلكترونية / عند الوصول" / "e-Visa / visa à l'arrivée" / "e-Vize / varışta vize" / "Электронная виза / по прибытии" / "电子签/落地签"
+  - d3 Tokyo: "Visa-free for 70+ nationalities" / "تأشيرة مجانية لـ 70+ جنسية" / "Sans visa: 70+ nationalités" / "70+ ülke için vizesiz" / "Без визы для 70+ стран" / "70+国免签"
+  - d4 Bali: "Visa on arrival (30 days)" / "تأشيرة عند الوصول (30 يوم)" / "Visa à l'arrivée (30 jours)" / "Varışta vize (30 gün)" / "Виза по прибытии (30 дней)" / "落地签（30天）"
+  - d5 Santorini: same as Paris (Schengen)
+  - d6 Maldives: "Free 30-day visa on arrival" / "تأشيرة مجانية 30 يوم عند الوصول" / "Visa gratuit 30j à l'arrivée" / "Ücretsiz 30 günlük varış vizesi" / "30 дней бесплатно по прибытии" / "免费30天落地签"
+  - d7 Istanbul: "e-Visa required (easy online)" / "تأشيرة إلكترونية (سهلة)" / "e-Visa requis (en ligne)" / "e-Vize gerekli (kolay online)" / "Нужна e-виза (онлайн легко)" / "需电子签（在线易办）"
+  - d8 Rome: same as Paris (Schengen)
+- All values kept SHORT (~30 chars or fewer) so they fit in a small info card without wrapping.
+- Added `visa` key to `detail.destination` in all 6 dictionary files (en/ar/fr/tr/ru/zh), placed right after `language:` and before `capital:`. Label translations: en "Visa", ar "التأشيرة", fr "Visa", tr "Vize", ru "Виза", zh "签证". The Dict type (typeof en) enforces this key on all locales.
+- bun run lint → 0 errors, 0 warnings
+- bunx tsc --noEmit → no errors in src/ (only pre-existing errors in examples/ and skills/ directories, unrelated to this task)
+
+Stage Summary:
+- Destination interface now has `visa: Record<Locale, string>` between `language` and `timezone`.
+- All 8 destinations in travel-data.ts carry a `visa` object with 6 locale entries each (8 × 6 = 48 visa values total).
+- All 6 dictionaries expose `detail.destination.visa` label in their language.
+- Ready for downstream agent (Task 8-b?) to wire the `visa` field into the DestinationDetailDialog quick-facts grid for rendering.
+
+---
+Task ID: 8-b
+Agent: orchestrator (main)
+Task: Restructure destination detail modal per user spec (remove floating sidebar, 6-card grid, bottom bar)
+
+Work Log:
+- Subagent (8-a) added `visa` field to Destination type + 8 destinations × 6 locales + `visa` dictionary key to all 6 language files (clean lint)
+- Rewrote destination-detail-dialog.tsx completely:
+  * REMOVED the floating sticky aside (was overlapping content — the user's main complaint)
+  * NEW structure: flex-col modal with 3 zones:
+    1. Gallery (shrink-0): image + overlay (country/name/rating/price) + close/prev/next (z-30) + dots (z-30, end-3)
+    2. Scrollable middle (flex-1 overflow-y-auto): overview + 6-card info grid + compact related tours
+    3. Fixed bottom bar (shrink-0, border-t): price (amber, large) on one side + Book Now button on other
+  * 6-card grid: bestTime, currency, language, visa, timezone, tours — each card: icon (circle bg), label (uppercase nowrap), value (whitespace-nowrap + truncate + auto dir detection for Arabic). Grid: grid-cols-2 sm:grid-cols-3
+  * z-index hierarchy: image(0) < gradient(1) < overlay-text(10, pointer-events-none) < controls(30)
+  * overflow: gallery overflow-hidden, middle overflow-y-auto, modal max-h-[92vh] rounded-[1.75rem]
+  * RTL: dir on DialogContent, start/end classes, whitespace-nowrap prevents char-by-char wrapping
+- lint: 0 errors; agent-browser + VLM verified: no floating sidebar, clean 3-zone structure, 6 equal cards no-wrap, bottom bar visible, mobile adapts to 2-col grid
+
+Stage Summary:
+- Destination detail modal now matches user spec exactly: image overlay + 6-card grid + bottom bar
+- No floating elements, no overlap, full RTL, responsive, keeps orange/white identity
+- Visa info added as 6th card (replacing capital in display)

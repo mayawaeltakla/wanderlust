@@ -149,6 +149,7 @@ const ru: Dict = {
       bestTime: "Лучшее время для посещения",
       currency: "Валюта",
       language: "Язык",
+      visa: "Виза",
       capital: "Столица",
       timezone: "Часовой пояс",
       toursAvailable: "Доступные туры",

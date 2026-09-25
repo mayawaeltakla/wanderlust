@@ -149,6 +149,7 @@ const tr: Dict = {
       bestTime: "Ziyaret İçin En İyi Zaman",
       currency: "Para Birimi",
       language: "Dil",
+      visa: "Vize",
       capital: "Başkent",
       timezone: "Saat Dilimi",
       toursAvailable: "Mevcut Turlar",
